@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opera / Opera GX — браузер с мессенджерами и геймерским уклоном</title>
+	<link rel="stylesheet" href="css/common.css">
+    <style>
+        /* ========= ОБЩИЕ СТИЛИ ========= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f9fbfd;
+            color: #1a2c3e;
+            line-height: 1.5;
+        }
+
+        /* ========= БОКОВАЯ ПАНЕЛЬ ========= */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: #1e2a3a;
+            color: #e2e8f0;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1.2rem;
+            border-bottom: 1px solid #2d3e4e;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+
+        .sidebar-header p {
+            font-size: 0.7rem;
+            color: #8aaec4;
+        }
+
+        .sidebar-nav {
+            padding: 0 0.8rem;
+        }
+
+        .nav-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-group-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: #7f9eb5;
+            padding: 0.5rem 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.6rem 1rem;
+            margin: 2px 0;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #cbdde9;
+        }
+
+        .nav-item:hover {
+            background: #2d4053;
+            color: white;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            background: #3a5a74;
+            color: white;
+        }
+
+        .nav-icon {
+            width: 28px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .sidebar-nav a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        /* ========= ОСНОВНОЙ КОНТЕНТ ========= */
+        .main-content {
+            margin-left: 260px;
+            padding: 2rem;
+            max-width: 1200px;
+        }
+
+        /* ========= КАРТОЧКИ ========= */
+        .card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e4eaf1;
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #ff1a2e;
+            display: inline-block;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #1e2a3a;
+        }
+
+        /* ========= СЕТКИ ========= */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ========= СПИСКИ ========= */
+        .feature-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .feature-list li {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #eff3f8;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .feature-list li strong {
+            min-width: 100px;
+            color: #ff1a2e;
+            font-weight: 600;
+        }
+
+        /* ========= БЭЙДЖИ ========= */
+        .badge {
+            background: #eef2f8;
+            padding: 0.25rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #ff1a2e;
+            display: inline-block;
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .feature-tag {
+            background: #ffe6e8;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #ff1a2e;
+            display: inline-block;
+        }
+
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+
+        /* ========= СТАТИСТИКА ========= */
+        .stat-block {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            flex: 1;
+            min-width: 100px;
+            background: #f8fafc;
+            padding: 0.8rem;
+            text-align: center;
+            border-radius: 0.8rem;
+            border: 1px solid #eef2f8;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ff1a2e;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #6b7c93;
+            margin-top: 0.25rem;
+        }
+
+        /* ========= ЦИТАТЫ ========= */
+        .quote-block {
+            background: #ffeef0;
+            padding: 1.2rem;
+            border-radius: 0.8rem;
+            border-left: 4px solid #ff1a2e;
+            margin: 1rem 0;
+            font-style: italic;
+            color: #4a5568;
+        }
+
+        /* ========= ССЫЛКИ ========= */
+        .wiki-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #ff1a2e;
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .wiki-link:hover {
+            background: #e50014;
+        }
+
+        /* ========= ЗАГОЛОВОК ========= */
+        .page-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e4eaf1;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e2a3a;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header .subtitle {
+            font-size: 1rem;
+            color: #4a627a;
+        }
+
+        /* ========= ПОДВАЛ ========= */
+        .footer {
+            text-align: center;
+            padding: 2rem 0 1rem;
+            color: #6b7c93;
+            font-size: 0.75rem;
+            border-top: 1px solid #e2eaf1;
+            margin-top: 2rem;
+        }
+
+        /* ========= АДАПТИВНОСТЬ ========= */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 1001;
+                background: #1e2a3a;
+                color: white;
+                padding: 0.5rem 0.8rem;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 0.9rem;
+            }
+            
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-list li {
+                flex-direction: column;
+                gap: 4px;
+            }
+            
+            .feature-list li strong {
+                min-width: auto;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========= БОКОВАЯ ПАНЕЛЬ ========= -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h3>🧭 BrowserHub</h3>
+        <p>Сравнение браузеров</p>
+    </div>
+    <div class="sidebar-nav">
+        
+        <div class="nav-group">
+            <div class="nav-group-title">Основное</div>
+			<div class="nav-item active">
+                <a href="index.html">
+                    <span class="nav-icon">🏠</span>
+                    <span>Главная</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="comparison.html">
+                    <span class="nav-icon">📊</span>
+                    <span>Сравнительная таблица</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="hotkeys.html">
+                    <span class="nav-icon">⌨️</span>
+                    <span>Горячие клавиши</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-group-title">Браузеры</div>
+            <div class="nav-item">
+                <a href="yandex.html">
+                    <span class="nav-icon">🔷</span>
+                    <span>Яндекс Браузер</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="firefox.html">
+                    <span class="nav-icon">🦊</span>
+                    <span>Mozilla Firefox</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="edge.html">
+                    <span class="nav-icon">🌊</span>
+                    <span>Microsoft Edge</span>
+                </a>
+            </div>
+            <div class="nav-item active">
+                <a href="opera.html">
+                    <span class="nav-icon">🎭</span>
+                    <span>Opera / Opera GX</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Кнопка для мобильных устройств -->
+<div class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">
+    ☰ Меню
+</div>
+
+<!-- ОСНОВНОЙ КОНТЕНТ -->
+<div class="main-content">
+    <div class="page-header">
+        <h1>🎭 Opera / Opera GX</h1>
+        <div class="subtitle">Социальный браузер с боковой панелью мессенджеров, встроенным VPN и отдельной версией для геймеров</div>
+    </div>
+
+    <div class="badge-row">
+        <span class="badge">🎮 Opera GX для геймеров</span>
+        <span class="badge">💬 Мессенджеры в боковой панели</span>
+        <span class="badge">🔒 Встроенный бесплатный VPN</span>
+        <span class="badge">⚡ Лидер JavaScript (Jetstream2)</span>
+        <span class="badge">🔋 Режим энергосбережения</span>
+    </div>
+
+    <a href="https://ru.wikipedia.org/wiki/Opera" target="_blank" class="wiki-link">📖 Подробнее на Википедии →</a>
+
+    <!-- Основные характеристики -->
+    <div class="grid-2">
+        <div class="card">
+            <h2>⚙️ Технические данные</h2>
+            <ul class="feature-list">
+                <li><strong>Движок:</strong> Chromium (Blink)</li>
+                <li><strong>Разработчик:</strong> Opera Software (с 2016 — Golden Brick Capital)</li>
+                <li><strong>Первая версия:</strong> 10 апреля 1995 года (один из старейших браузеров)</li>
+                <li><strong>Платформы:</strong> Windows, macOS, Linux, Android, iOS</li>
+                <li><strong>Опера GX:</strong> Отдельная версия для геймеров с 2019 года</li>
+                <li><strong>Лицензия:</strong> Бесплатное ПО</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>⚡ Производительность</h2>
+            <ul class="feature-list">
+                <li><strong>Лидер JavaScript:</strong> Лучший результат в тесте Jetstream 2</li>
+                <li><strong>Хорошая графика:</strong> Высокие показатели в Motionmark</li>
+                <li><strong>Режим энергосбережения:</strong> Увеличивает время автономной работы на ноутбуках</li>
+                <li><strong>Opera GX:</strong> Ограничители CPU, RAM и сети для игр</li>
+                <li><strong>Быстрый старт:</strong> Оптимизированная загрузка интерфейса</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Уникальные функции -->
+    <div class="card">
+        <h2>✨ Уникальные возможности Opera</h2>
+        <div class="grid-3">
+            <div>
+                <h3>💬 Боковая панель с мессенджерами</h3>
+                <p>Telegram, WhatsApp, VK, Facebook Messenger, Instagram, Twitter — все в одной панели. Не нужно открывать отдельные вкладки, всегда на связи.</p>
+            </div>
+            <div>
+                <h3>🔒 Встроенный бесплатный VPN</h3>
+                <p>Встроенный VPN без ограничений по трафику. Позволяет обходить блокировки и защищать приватность. (В РФ доступ может быть ограничен с 2021 года).</p>
+            </div>
+            <div>
+                <h3>🎮 Opera GX</h3>
+                <p>Специальная версия для геймеров: ограничители CPU и RAM, интеграция с Twitch и Discord, настраиваемая подсветка, звуки при нажатии клавиш.</p>
+            </div>
+        </div>
+        <div class="feature-tags">
+            <span class="feature-tag">📱 Встроенные мессенджеры</span>
+            <span class="feature-tag">🎵 Интеграция с YouTube Music, Spotify</span>
+            <span class="feature-tag">🖼️ Встроенный видеоплеер с PiP</span>
+            <span class="feature-tag">🧩 Встроенный Ad Blocker</span>
+            <span class="feature-tag">🔋 Режим энергосбережения</span>
+        </div>
+    </div>
+
+    <!-- Opera GX детали -->
+    <div class="card">
+        <h2>🎮 Opera GX — браузер для геймеров</h2>
+        <div class="grid-2">
+            <div>
+                <h3>🎛️ Ограничители ресурсов</h3>
+                <p>GX Control позволяет ограничить использование CPU, RAM и сетевого трафика, чтобы браузер не мешал играм. Можно выставить лимиты вручную.</p>
+                <div class="stat-block" style="margin-top: 0.5rem;">
+                    <div class="stat-item">
+                        <div class="stat-number">💾</div>
+                        <div class="stat-label">Ограничение RAM</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">⚡</div>
+                        <div class="stat-label">Ограничение CPU</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">🌐</div>
+                        <div class="stat-label">Ограничение сети</div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3>🎨 Геймерский дизайн</h3>
+                <ul class="feature-list">
+                    <li><strong>Кастомная подсветка:</strong> Настройка цветов интерфейса под игровую периферию</li>
+                    <li><strong>Звуки клавиатуры:</strong> Механические звуки при нажатии клавиш</li>
+                    <li><strong>Интеграция Twitch:</strong> Уведомления о стримах прямо в браузере</li>
+                    <li><strong>Discord:</strong> Встроенная поддержка Discord в боковой панели</li>
+                    <li><strong>GX Corner:</strong> Новости игр, скидки и бесплатные раздачи</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Безопасность и конфиденциальность -->
+    <div class="grid-2">
+        <div class="card">
+            <h2>🛡️ Безопасность и конфиденциальность</h2>
+            <ul class="feature-list">
+                <li><strong>Встроенный VPN:</strong> Бесплатный VPN без ограничений трафика (работает на основе сервиса SurfEasy)</li>
+                <li><strong>Ad Blocker:</strong> Встроенная блокировка рекламы и трекеров</li>
+                <li><strong>Cryptojacking Protection:</strong> Защита от скрытого майнинга криптовалют</li>
+                <li><strong>Приватность:</strong> Средний уровень, с 2025 года в некоторых версиях привязка к поиску Яндекса</li>
+                <li><strong>Антифишинг:</strong> Базовая защита (обнаруживает около 6 из 100 фишинговых сайтов в тестах)</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🎨 Дизайн и интерфейс</h2>
+            <ul class="feature-list">
+                <li><strong>Яркий и современный:</strong> Настраиваемая тема оформления, выбор цветовой схемы</li>
+                <li><strong>Боковая панель:</strong> Быстрый доступ к мессенджерам, почте, VPN, плееру</li>
+                <li><strong>Opera GX стиль:</strong> Тёмная тема с красными акцентами, динамическая подсветка</li>
+                <li><strong>Настраиваемый стартовый экран:</strong> Виджеты, закладки, фон</li>
+                <li><strong>Удобное управление вкладками:</strong> Группировка, закрепление, предпросмотр</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Интеграция с соцсетями и популярность -->
+    <div class="grid-2">
+        <div class="card">
+            <h2>💬 Интеграция с соцсетями и мессенджерами</h2>
+            <ul class="feature-list">
+                <li><strong>Telegram:</strong> Полноценный клиент в боковой панели</li>
+                <li><strong>WhatsApp:</strong> Быстрый доступ к чатам без открытия вкладки</li>
+                <li><strong>VK (ВКонтакте):</strong> Можно закрепить сбоку и всегда быть на связи</li>
+                <li><strong>Instagram, Twitter:</strong> Поддержка через боковую панель</li>
+                <li><strong>YouTube:</strong> Встроенный плеер с режимом картинка-в-картинке</li>
+                <li><strong>Spotify, Apple Music:</strong> Интеграция музыкальных сервисов</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>📊 Популярность и география</h2>
+            <ul class="feature-list">
+                <li><strong>Россия:</strong> Традиционно популярен, особенно Opera GX среди геймеров</li>
+                <li><strong>Украина:</strong> Входит в топ-5 наиболее используемых браузеров</li>
+                <li><strong>Восточная Европа:</strong> Стабильная доля рынка (Польша, Чехия, Румыния)</li>
+                <li><strong>Геймерское сообщество:</strong> Opera GX активно продвигается среди игроков</li>
+                <li><strong>Глобальная доля:</strong> Около 2-3% мирового рынка</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- История и интересные факты -->
+    <div class="card">
+        <h2>📜 История и интересные факты</h2>
+        <div class="grid-3">
+            <div>
+                <h3>🏛️ Один из старейших браузеров</h3>
+                <p>Opera была основана в 1995 году в Норвегии. Изначально использовала собственный движок Presto, но в 2013 году перешла на Chromium.</p>
+            </div>
+            <div>
+                <h3>💡 Пионер инноваций</h3>
+                <p>Именно Opera представила многие функции, ставшие стандартом: вкладки (2000 год), быстрый набор (Speed Dial), жесты мышью, встроенный VPN.</p>
+            </div>
+            <div>
+                <h3>🇨🇳 Смена владельца</h3>
+                <p>В 2016 году Opera была продана китайской инвестиционной группе Golden Brick Capital. Разработка продолжается, но фокус сместился на интеграцию с азиатскими сервисами.</p>
+            </div>
+        </div>
+        <div class="quote-block">
+            💡 Opera Mini — популярная версия для мобильных устройств с технологией сжатия трафика до 90%, особенно востребована в странах с медленным интернетом.
+        </div>
+    </div>
+
+    <!-- Официальные ссылки -->
+    <div style="background: #eef2f8; border-radius: 0.8rem; padding: 1rem 1.5rem; margin-top: 0.5rem;">
+        <p style="font-weight: 500; margin-bottom: 0.5rem;">🔗 Официальные ресурсы:</p>
+        <p>
+            <a href="https://www.opera.com/ru" target="_blank" style="margin-right: 1.5rem; color: #ff1a2e; text-decoration: none;">Официальный сайт Opera</a>
+            <a href="https://www.opera.com/ru/gx" target="_blank" style="margin-right: 1.5rem; color: #ff1a2e; text-decoration: none;">Opera GX для геймеров</a>
+            <a href="https://help.opera.com/ru/" target="_blank" style="margin-right: 1.5rem; color: #ff1a2e; text-decoration: none;">Центр поддержки</a>
+            <a href="https://ru.wikipedia.org/wiki/Opera" target="_blank" style="color: #ff1a2e; text-decoration: none;">Википедия</a>
+        </p>
+    </div>
+
+    <div class="footer">
+        © 2026 Обзор актуален на март 2026. Данные основаны на официальных источниках Opera Software, тестах производительности и открытой статистике. Opera и Opera GX — зарегистрированные товарные знаки Opera Software AS.
+    </div>
+</div>
+
+<script>
+    // Скрипт для закрытия панели при клике вне её на мобильных
+    document.addEventListener('click', function(event) {
+        if (window.innerWidth <= 768) {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            if (sidebar && !sidebar.contains(event.target) && menuBtn && !menuBtn.contains(event.target)) {
+                sidebar.classList.remove('open');
+            }
+        }
+    });
+	// Автоматическая подсветка активного пункта меню
+	    function setActiveNavItem() {
+        const currentPath = window.location.pathname;
+        const currentFile = currentPath.split('/').pop() || 'index.html';
+        
+        const navLinks = document.querySelectorAll('.sidebar-nav a');
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentFile) {
+                link.parentElement.classList.add('active');
+            } else {
+                link.parentElement.classList.remove('active');
+            }
+        });
+    }
+    
+    setActiveNavItem();
+</script>
+
+</body>
+</html>
