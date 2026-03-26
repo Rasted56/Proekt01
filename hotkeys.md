@@ -391,7 +391,6 @@
         </div>
     </div>
 </div>
-
 <!-- Кнопка для мобильных устройств -->
 <div class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">
     ☰ Меню
@@ -630,5 +629,6 @@
     setActiveNavItem();
 </script>
 
+</body>
 </body>
 </html>
