@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Яндекс Браузер — подробный обзор</title>
+    <style>
+        /* ========= ОБЩИЕ СТИЛИ ========= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f9fbfd;
+            color: #1a2c3e;
+            line-height: 1.5;
+        }
+
+        /* ========= БОКОВАЯ ПАНЕЛЬ ========= */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: #1e2a3a;
+            color: #e2e8f0;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1.2rem;
+            border-bottom: 1px solid #2d3e4e;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+
+        .sidebar-header p {
+            font-size: 0.7rem;
+            color: #8aaec4;
+        }
+
+        .sidebar-nav {
+            padding: 0 0.8rem;
+        }
+
+        .nav-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-group-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: #7f9eb5;
+            padding: 0.5rem 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.6rem 1rem;
+            margin: 2px 0;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #cbdde9;
+        }
+
+        .nav-item:hover {
+            background: #2d4053;
+            color: white;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            background: #3a5a74;
+            color: white;
+        }
+
+        .nav-icon {
+            width: 28px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .sidebar-nav a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        /* ========= ОСНОВНОЙ КОНТЕНТ ========= */
+        .main-content {
+            margin-left: 260px;
+            padding: 2rem;
+            max-width: 1200px;
+        }
+
+        /* ========= КАРТОЧКИ ========= */
+        .card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e4eaf1;
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #fc3f1d;
+            display: inline-block;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #1e2a3a;
+        }
+
+        /* ========= СЕТКИ ========= */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ========= СПИСКИ ========= */
+        .feature-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .feature-list li {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #eff3f8;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .feature-list li strong {
+            min-width: 100px;
+            color: #1f6392;
+            font-weight: 600;
+        }
+
+        /* ========= БЭЙДЖИ ========= */
+        .badge {
+            background: #eef2f8;
+            padding: 0.25rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #1f6392;
+            display: inline-block;
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .feature-tag {
+            background: #eef2ff;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #1f6392;
+            display: inline-block;
+        }
+
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+
+        /* ========= ССЫЛКИ ========= */
+        .wiki-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1f6392;
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .wiki-link:hover {
+            background: #fc3f1d;
+        }
+
+        /* ========= ЗАГОЛОВОК ========= */
+        .page-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e4eaf1;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e2a3a;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header .subtitle {
+            font-size: 1rem;
+            color: #4a627a;
+        }
+
+        /* ========= ПОДВАЛ ========= */
+        .footer {
+            text-align: center;
+            padding: 2rem 0 1rem;
+            color: #6b7c93;
+            font-size: 0.75rem;
+            border-top: 1px solid #e2eaf1;
+            margin-top: 2rem;
+        }
+
+        /* ========= АДАПТИВНОСТЬ ========= */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 1001;
+                background: #1e2a3a;
+                color: white;
+                padding: 0.5rem 0.8rem;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 0.9rem;
+            }
+            
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-list li {
+                flex-direction: column;
+                gap: 4px;
+            }
+            
+            .feature-list li strong {
+                min-width: auto;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========= БОКОВАЯ ПАНЕЛЬ (ВСТРОЕННАЯ) ========= -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h3>🧭 BrowserHub</h3>
+        <p>Сравнение браузеров</p>
+    </div>
+    <div class="sidebar-nav">
+        
+        <div class="nav-group">
+            <div class="nav-group-title">Основное</div>
+			<div class="nav-item active">
+                <a href="index.html">
+                    <span class="nav-icon">🏠</span>
+                    <span>Главная</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="comparison.html">
+                    <span class="nav-icon">📊</span>
+                    <span>Сравнительная таблица</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="hotkeys.html">
+                    <span class="nav-icon">⌨️</span>
+                    <span>Горячие клавиши</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-group-title">Браузеры</div>
+            <div class="nav-item active">
+                <a href="yandex.html">
+                    <span class="nav-icon">🔷</span>
+                    <span>Яндекс Браузер</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="firefox.html">
+                    <span class="nav-icon">🦊</span>
+                    <span>Mozilla Firefox</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="edge.html">
+                    <span class="nav-icon">🌊</span>
+                    <span>Microsoft Edge</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="opera.html">
+                    <span class="nav-icon">🎭</span>
+                    <span>Opera / Opera GX</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Кнопка для мобильных устройств -->
+<div class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">
+    ☰ Меню
+</div>
+
+<!-- ОСНОВНОЙ КОНТЕНТ -->
+<div class="main-content">
+    <div class="page-header">
+        <h1>🔷 Яндекс Браузер</h1>
+        <div class="subtitle">Умный браузер с нейросетями, голосовым помощником и глубокой интеграцией в экосистему Рунета</div>
+    </div>
+
+    <div class="badge-row">
+        <span class="badge">🧠 Нейросети Protect</span>
+        <span class="badge">🎙️ Алиса</span>
+        <span class="badge">⚡ Оптимизация</span>
+        <span class="badge">📺 Видеосеть</span>
+        <span class="badge">🌐 Умная строка</span>
+    </div>
+
+    <a href="https://ru.wikipedia.org/wiki/Яндекс.Браузер" target="_blank" class="wiki-link">📖 Подробнее на Википедии →</a>
+
+    <!-- Основные характеристики -->
+    <div class="grid-2">
+        <div class="card">
+            <h2>⚙️ Технические данные</h2>
+            <ul class="feature-list">
+                <li><strong>Движок:</strong> Chromium (Blink)</li>
+                <li><strong>Разработчик:</strong> Яндекс</li>
+                <li><strong>Первая версия:</strong> 1 октября 2012</li>
+                <li><strong>Платформы:</strong> Windows, macOS, Linux, Android, iOS</li>
+                <li><strong>Доля в Рунете:</strong> 36,65% (декабрь 2025)</li>
+                <li><strong>Лицензия:</strong> Бесплатное ПО</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🛡️ Безопасность</h2>
+            <ul class="feature-list">
+                <li><strong>Protect:</strong> Распознаёт до 85 из 100 фишинговых сайтов</li>
+                <li><strong>Wi-Fi защита:</strong> Шифрование в открытых сетях</li>
+                <li><strong>Проверка паролей:</strong> Мониторинг утечек</li>
+                <li><strong>Антивирус:</strong> Проверка загружаемых файлов</li>
+                <li><strong>Приватность:</strong> Средняя (интеграция с сервисами Яндекса)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Уникальные функции -->
+    <div class="card">
+        <h2>✨ Уникальные возможности</h2>
+        <div class="grid-3">
+            <div>
+                <h3>🎙️ Алиса</h3>
+                <p>Голосовой помощник: поиск в интернете, управление музыкой, навигация, ответы на вопросы. Встроен прямо в браузер.</p>
+            </div>
+            <div>
+                <h3>📹 Видеосеть</h3>
+                <p>Поиск видео по голосу, встроенный плеер, возможность открыть видео в отдельном окне.</p>
+            </div>
+            <div>
+                <h3>🌐 Умная строка</h3>
+                <p>Автодополнение адресов, морфология русского языка, исправление раскладки, ответы на простые запросы.</p>
+            </div>
+        </div>
+        <div class="feature-tags">
+            <span class="feature-tag">🧠 Краткий пересказ видео</span>
+            <span class="feature-tag">🎬 Перевод и озвучка видео</span>
+            <span class="feature-tag">📁 Группировка вкладок по доменам</span>
+            <span class="feature-tag">🔍 Поиск с морфологией</span>
+            <span class="feature-tag">🔄 Синхронизация через Яндекс ID</span>
+        </div>
+    </div>
+
+    <!-- Интеграция с сервисами -->
+    <div class="grid-2">
+        <div class="card">
+            <h2>🔗 Интеграция с сервисами</h2>
+            <ul class="feature-list">
+                <li><strong>Яндекс ID:</strong> Единая учётная запись</li>
+                <li><strong>Яндекс.Диск:</strong> Встроенный доступ к файлам</li>
+                <li><strong>Яндекс.Карты, Почта:</strong> Прямые подсказки</li>
+                <li><strong>VK (ВКонтакте):</strong> Поиск музыки из строки, перевод постов</li>
+                <li><strong>Rutube:</strong> Перевод и озвучка видео, краткий пересказ</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🎨 Дизайн и интерфейс</h2>
+            <ul class="feature-list">
+                <li><strong>Стиль:</strong> Минималистичный, прозрачные панели</li>
+                <li><strong>Табло:</strong> Адаптивная страница с часто посещаемыми сайтами</li>
+                <li><strong>Тёмная тема:</strong> Полная поддержка</li>
+                <li><strong>Группировка:</strong> Вкладки одного домена сворачиваются</li>
+                <li><strong>Кастомизация:</strong> Фоновые изображения, виджеты</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2026 Обзор актуален на март 2026. Данные основаны на официальных источниках и тестах производительности.
+    </div>
+</div>
+
+<script>
+    // Скрипт для закрытия панели при клике вне её на мобильных
+    document.addEventListener('click', function(event) {
+        if (window.innerWidth <= 768) {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            if (sidebar && !sidebar.contains(event.target) && menuBtn && !menuBtn.contains(event.target)) {
+                sidebar.classList.remove('open');
+            }
+        }
+    });
+	    function setActiveNavItem() {
+        const currentPath = window.location.pathname;
+        const currentFile = currentPath.split('/').pop() || 'index.html';
+        
+        const navLinks = document.querySelectorAll('.sidebar-nav a');
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentFile) {
+                link.parentElement.classList.add('active');
+            } else {
+                link.parentElement.classList.remove('active');
+            }
+        });
+    }
+    
+    setActiveNavItem();
+</script>
+
+</body>
+</html>
