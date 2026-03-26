@@ -333,63 +333,6 @@
 <body>
 
 <!-- ========= БОКОВАЯ ПАНЕЛЬ ========= -->
-<div class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <h3>🧭 BrowserHub</h3>
-        <p>Сравнение браузеров</p>
-    </div>
-    <div class="sidebar-nav">
-        
-        <div class="nav-group">
-            <div class="nav-group-title">Основное</div>
-			<div class="nav-item active">
-                <a href="index.html">
-                    <span class="nav-icon">🏠</span>
-                    <span>Главная</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="comparison.html">
-                    <span class="nav-icon">📊</span>
-                    <span>Сравнительная таблица</span>
-                </a>
-            </div>
-            <div class="nav-item active">
-                <a href="hotkeys.html">
-                    <span class="nav-icon">⌨️</span>
-                    <span>Горячие клавиши</span>
-                </a>
-            </div>
-        </div>
-
-        <div class="nav-group">
-            <div class="nav-group-title">Браузеры</div>
-            <div class="nav-item">
-                <a href="yandex.html">
-                    <span class="nav-icon">🔷</span>
-                    <span>Яндекс Браузер</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="firefox.html">
-                    <span class="nav-icon">🦊</span>
-                    <span>Mozilla Firefox</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="edge.html">
-                    <span class="nav-icon">🌊</span>
-                    <span>Microsoft Edge</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="opera.html">
-                    <span class="nav-icon">🎭</span>
-                    <span>Opera / Opera GX</span>
-                </a>
-            </div>
-        </div>
-    </div>
 </div>
 <!-- Кнопка для мобильных устройств -->
 <div class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">
