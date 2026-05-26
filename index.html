@@ -74,45 +74,6 @@
             height: 1px;
             background: #eef2f8;
         }
-         /* Адаптив */
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .main-content {
-                margin-left: 0;
-                padding: 1rem;
-            }
-            .mobile-menu-btn {
-                display: block;
-                position: fixed;
-                top: 1rem;
-                left: 1rem;
-                z-index: 1001;
-                background: #1e2a3a;
-                color: white;
-                padding: 0.5rem 0.8rem;
-                border-radius: 8px;
-                cursor: pointer;
-                font-size: 0.9rem;
-            }
-            .title-card {
-                padding: 1.5rem;
-            }
-            .info-row strong {
-                width: 120px;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .mobile-menu-btn {
-                display: none;
-            }
-        }
     </style>
 </head>
 <body>
@@ -210,35 +171,6 @@
         
     </div>
 </div>
-
-<script>
-    // Подсветка активного пункта меню
-    function setActiveNavItem() {
-        const currentPath = window.location.pathname;
-        const currentFile = currentPath.split('/').pop() || 'index.html';
-        const navLinks = document.querySelectorAll('.sidebar-nav a');
-        navLinks.forEach(link => {
-            const href = link.getAttribute('href');
-            if (href === currentFile) {
-                link.parentElement.classList.add('active');
-            } else {
-                link.parentElement.classList.remove('active');
-            }
-        });
-    }
-    setActiveNavItem();
-
-    // Закрытие панели на мобильных
-    document.addEventListener('click', function(event) {
-        if (window.innerWidth <= 768) {
-            const sidebar = document.getElementById('sidebar');
-            const menuBtn = document.querySelector('.mobile-menu-btn');
-            if (sidebar && !sidebar.contains(event.target) && menuBtn && !menuBtn.contains(event.target)) {
-                sidebar.classList.remove('open');
-            }
-        }
-    });
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>

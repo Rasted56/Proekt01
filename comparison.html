@@ -412,20 +412,8 @@
     document.getElementById('chk-edge').addEventListener('change', updateTableVisibility);
     document.getElementById('chk-opera').addEventListener('change', updateTableVisibility);
 
-    // Вызываем функцию при загрузке страницы (все галочки по умолчанию включены)
+    // Вызываем функцию при загрузке страницы
     updateTableVisibility();
-
-    // Скрипт для закрытия панели при клике вне её на мобильных
-    document.addEventListener('click', function(event) {
-        if (window.innerWidth <= 768) {
-            const sidebar = document.getElementById('sidebar');
-            const menuBtn = document.querySelector('.mobile-menu-btn');
-            if (sidebar && !sidebar.contains(event.target) && menuBtn && !menuBtn.contains(event.target)) {
-                sidebar.classList.remove('open');
-            }
-        }
-    });
-
 </script>
 <script src="script.js"></script>
 </body>
